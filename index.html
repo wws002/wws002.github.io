@@ -324,7 +324,7 @@ class View
 	    this.mframe++; if (this.mframe > 4) this.mframe = 0;
 
       //if keyRight and mario is on a surface, draw him running
-	    if(this.model.mario.runningRight && (this.model.mario.onTop == true || this.model.mario.y == 455))
+	    if(this.model.mario.runningRight && (this.model.mario.onTop == true || this.model.mario.y == this.model.ground))
 	      ctx.drawImage(this.model.mario.marioPics[this.mframe], this.model.startPos, this.model.mario.y);
 
 	    //else draw him standing still
@@ -335,7 +335,7 @@ class View
 	    this.mframe++; if (this.mframe < 5 || this.mframe > 9) this.mframe = 5;
 
 	    //if keyLeft and mario is on a surface, draw him running
-	    if(this.model.mario.runningLeft && (this.model.mario.onTop == true || this.model.mario.y == 455))
+	    if(this.model.mario.runningLeft && (this.model.mario.onTop == true || this.model.mario.y == this.model.ground))
 	      ctx.drawImage(this.model.mario.marioPics[this.mframe], this.model.startPos, this.model.mario.y);
 
 	    //else draw him standing still
