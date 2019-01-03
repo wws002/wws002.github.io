@@ -88,6 +88,7 @@ class Mario
       this.sideCollide = true;
       this.runningRight = false;
       this.model.scrollPos = x - this.model.startPos - this.w;
+			this.model.bScrollPos -= 2;
       this.x = x - this.w;
     }
     if ( this.x < x + w && this.prev_x >= x + w) //collision from the right
@@ -95,6 +96,7 @@ class Mario
       this.sideCollide = true;
       this.runningLeft = false;
       this.model.scrollPos = x - this.model.startPos + w;
+			this.model.bScrollPos += 2;
       this.x = x + w;
     }
   }
@@ -111,6 +113,7 @@ class Mario
       this.x+=12;
       this.facingRight = true;
       this.model.scrollPos += 12;
+			this.model.bScrollPos += 2;
     }
 
     if(this.runningLeft)
@@ -118,6 +121,7 @@ class Mario
       this.x-=12;
       this.facingRight = false;
       this.model.scrollPos -= 12;
+			this.model.bScrollPos -= 2;
     }
 
     if(this.y > this.model.ground)//if he's on the ground, put him there
@@ -131,7 +135,6 @@ class Mario
 			this.sideCollide = true;
 		if(this.x + this.w == this.model.brick2.x || this.x == this.model.brick2.x + this.model.brick2.w)
 			this.sideCollide = true;
-
 		if(this.collision(this.model.brick1.x, this.model.brick1.y, this.model.brick1.w, this.model.brick1.h))
 			this.leaveBlock(this.model.brick1.x, this.model.brick1.y, this.model.brick1.w, this.model.brick1.h);
 		if(this.collision(this.model.brick2.x, this.model.brick2.y, this.model.brick2.w, this.model.brick2.h))
@@ -140,7 +143,6 @@ class Mario
 			this.leaveBlock(this.model.coinBlock1.x, this.model.coinBlock1.y, this.model.coinBlock1.w, this.model.coinBlock1.h);
 		if(this.collision(this.model.coinBlock2.x, this.model.coinBlock2.y, this.model.coinBlock2.w, this.model.coinBlock2.h))
 			this.leaveBlock(this.model.coinBlock2.x, this.model.coinBlock2.y, this.model.coinBlock2.w, this.model.coinBlock2.h);
-
 	}
 }
 
@@ -250,6 +252,7 @@ class Model
 	constructor()
 	{
 		this.scrollPos = 0;
+		this.bScrollPos = 0;
 		this.startPos = 550;
 		this.ground = 455;
 		this.mario = new Mario(this, this.startPos, this.ground);
@@ -258,6 +261,8 @@ class Model
 		this.coinBlock1 = new CoinBlock(this, 150, 250);
 		this.coinBlock2 = new CoinBlock(this, 1300, 200);
 		this.coins = [];
+		//this.coinBlocks = [];
+		//this.coinBlocks.push(new CoinBlock(this, 150, 250));
 	}
 
 	update()
@@ -302,7 +307,7 @@ class View
 		ctx.fill();
 
 		//draw the background
-		ctx.drawImage(this.backgroundPic, 500 - this.model.scrollPos, -500);
+		ctx.drawImage(this.backgroundPic, 500 - this.model.bScrollPos, -500);
 
 		//draw the ground
 		ctx.beginPath();
