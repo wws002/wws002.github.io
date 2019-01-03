@@ -284,6 +284,8 @@ class View
 	{
 		this.model = model;
 		this.mframe = 0;
+		this.backgroundPic = new Image();
+		this.backgroundPic.src = "scaledBackground.png";
 		this.canvas = document.getElementById("myCanvas");
 	}
 
@@ -293,8 +295,14 @@ class View
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, 1255, 700);
 
-		//draw the background
+		//draw the sky
+		ctx.beginPath();
+		ctx.rect(0, 0, 1500, 1000);
+		ctx.fillStyle = 'rgb(55, 201, 200)';
+		ctx.fill();
 
+		//draw the background
+		ctx.drawImage(this.backgroundPic, 500 - this.model.scrollPos, -500);
 
 		//draw the ground
 		ctx.beginPath();
