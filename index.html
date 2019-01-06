@@ -9,25 +9,6 @@
 <script type="text/javascript">
 
 ///////////////////////////////////
-///////////Sprite Class////////////
-///////////////////////////////////
-class Sprite
-{
-	constructor(model, x, y, w, h)
-	{
-		this.model = model;
-		this.x = x;
-		this.y = y;
-		this.prev_x = x;
-		this.prev_y = y;
-		this.w = w;
-		this.h = h;
-	}
-}
-
-
-
-///////////////////////////////////
 ////////////Mario Class////////////
 ///////////////////////////////////
 class Mario
@@ -224,6 +205,7 @@ class CoinBlock
           this.hvelocity = -this.n%15.0;
 
 				this.model.coins.push(new Coin(this.hvelocity, this.vvelocity, this.x, this.y - 40, this.model));
+				this.model.sprites.push(new Coin(this.hvelocity, this.vvelocity, this.x, this.y - 40, this.model));
 
         this.coinCount--;
       }
@@ -272,14 +254,19 @@ class Model
 		this.bScrollPos = 0;
 		this.startPos = 550;
 		this.ground = 455;
+
 		this.mario = new Mario(this, this.startPos, this.ground);
 		this.brick1 = new Brick(this, 350, 350);
 		this.brick2 = new Brick(this, 1000, 280);
 		this.coinBlock1 = new CoinBlock(this, 150, 250);
 		this.coinBlock2 = new CoinBlock(this, 1300, 200);
-		this.coins = [];
 
 		this.sprites = [];
+		this.sprites.push(this.mario);
+		this.sprites.push(this.brick1);
+		this.sprites.push(this.brick2);
+		this.sprites.push(this.coinBlock1);
+		this.sprites.push(this.coinBlock2);
 	}
 
 	update()
