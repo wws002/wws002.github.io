@@ -15,6 +15,7 @@ class Mario
 {
 	constructor(model, x, y)
 	{
+		this.type = "Mario";
 		this.model = model;
 		this.x = x;
 		this.prev_x = x;
@@ -22,6 +23,7 @@ class Mario
 		this.prev_y = y;
 		this.w = 60;
 		this.h = 95;
+		this.mframe = 0;
 		this.vvel = 0.0;
 		this.facingRight = true;
 		this.runningRight = false;
@@ -99,6 +101,33 @@ class Mario
     }
   }
 
+	drawMe(ctx)
+	{
+		//animate mario
+	  if (this.facingRight) //if he's facing right, animate right
+	  {
+	    this.mframe++; if (this.mframe > 4) this.mframe = 0;
+
+      //if keyRight and mario is on a surface, draw him running
+	    if(this.runningRight && (this.onTop == true || this.y == this.model.ground))
+	      ctx.drawImage(this.marioPics[this.mframe], this.model.startPos, this.y);
+
+	    //else draw him standing still
+	    else ctx.drawImage(this.marioPics[3], this.model.startPos, this.y);
+	  }
+	  else //if he's facing left,  animate left
+	  {
+	    this.mframe++; if (this.mframe < 5 || this.mframe > 9) this.mframe = 5;
+
+	    //if keyLeft and mario is on a surface, draw him running
+	    if(this.runningLeft && (this.onTop == true || this.y == this.model.ground))
+	      ctx.drawImage(this.marioPics[this.mframe], this.model.startPos, this.y);
+
+	    //else draw him standing still
+	    else ctx.drawImage(this.marioPics[8], this.model.startPos, this.y);
+	  }
+	}
+
 	update()
 	{
 		this.onTop = false;
@@ -153,6 +182,7 @@ class Brick
 {
 	constructor(model, x, y)
 	{
+		this.type = "Brick";
 		this.model = model;
 		this.x = x;
 		this.y = y;
@@ -160,6 +190,16 @@ class Brick
 		this.h = 100;
 		this.brickPic = new Image();
 		this.brickPic.src = "brickPicSmall.png";
+	}
+
+	drawMe(ctx)
+	{
+		ctx.drawImage(this.model.brick1.brickPic, this.model.brick1.x - this.model.scrollPos, this.model.brick1.y);
+		ctx.drawImage(this.model.brick2.brickPic, this.model.brick2.x - this.model.scrollPos, this.model.brick2.y);
+	}
+
+	update()
+	{
 	}
 }
 
@@ -172,6 +212,7 @@ class CoinBlock
 {
 	constructor(model, x, y)
 	{
+		this.type = "CoinBlock";
 		this.model = model;
 		this.x = x;
 		this.y = y;
@@ -189,6 +230,18 @@ class CoinBlock
 		return Math.random() * (50-1) + 1 ;
 	}
 
+	drawMe(ctx)
+	{
+		if(this.model.coinBlock1.coinCount > 0)
+			ctx.drawImage(this.model.coinBlock1.blockPic, this.model.coinBlock1.x - this.model.scrollPos, this.model.coinBlock1.y);
+		else
+			ctx.drawImage(this.model.coinBlock1.emptyBlockPic, this.model.coinBlock1.x - this.model.scrollPos, this.model.coinBlock1.y);
+		if(this.model.coinBlock2.coinCount > 0)
+			ctx.drawImage(this.model.coinBlock2.blockPic, this.model.coinBlock2.x - this.model.scrollPos, this.model.coinBlock2.y);
+		else
+			ctx.drawImage(this.model.coinBlock2.emptyBlockPic, this.model.coinBlock2.x - this.model.scrollPos, this.model.coinBlock2.y);
+	}
+
 	update()
 	{
 		//if mario's head bumps the bottum of the block
@@ -204,7 +257,6 @@ class CoinBlock
         else
           this.hvelocity = -this.n%15.0;
 
-				this.model.coins.push(new Coin(this.hvelocity, this.vvelocity, this.x, this.y - 40, this.model));
 				this.model.sprites.push(new Coin(this.hvelocity, this.vvelocity, this.x, this.y - 40, this.model));
 
         this.coinCount--;
@@ -222,6 +274,8 @@ class Coin
 {
 	constructor(hvel, vvel, x, y, m)
   {
+		this.type = "Coin";
+		this.model = m;
 		this.x = x;
 		this.y = y;
 		this.w = 0;
@@ -232,6 +286,16 @@ class Coin
 		this.coinPic = new Image();
 		this.coinPic.src = "coin.png";
   }
+
+	drawMe(ctx)
+	{
+		for(let i = 0; i < this.model.sprites.length; i++)
+		{
+			let s = this.model.sprites[i];
+			if(s.type == "Coin")
+				ctx.drawImage(this.coinPic, s.x - this.model.scrollPos, s.y);
+		}
+	}
 
   update()
   {
@@ -271,13 +335,10 @@ class Model
 
 	update()
 	{
-		this.mario.update();
-		this.coinBlock1.update();
-		this.coinBlock2.update();
-
-		for(let i = 0; i < this.coins.length; i++)
+		for(let i = 0; i < this.sprites.length; i++)
 		{
-			this.coins[i].update();
+			let s = this.sprites[i];
+			s.update();
 		}
 	}
 }
@@ -292,7 +353,6 @@ class View
 	constructor(model)
 	{
 		this.model = model;
-		this.mframe = 0;
 		this.backgroundPic = new Image();
 		this.backgroundPic.src = "scaledBackground.png";
 		this.canvas = document.getElementById("myCanvas");
@@ -319,49 +379,11 @@ class View
 		ctx.fillStyle = "green";
 		ctx.fill();
 
-		//draw the bricks
-		ctx.drawImage(this.model.brick1.brickPic, this.model.brick1.x - this.model.scrollPos, this.model.brick1.y);
-		ctx.drawImage(this.model.brick2.brickPic, this.model.brick2.x - this.model.scrollPos, this.model.brick2.y);
-
-		//draw the coin blocks
-		if(this.model.coinBlock1.coinCount > 0)
-			ctx.drawImage(this.model.coinBlock1.blockPic, this.model.coinBlock1.x - this.model.scrollPos, this.model.coinBlock1.y);
-		else
-			ctx.drawImage(this.model.coinBlock1.emptyBlockPic, this.model.coinBlock1.x - this.model.scrollPos, this.model.coinBlock1.y);
-		if(this.model.coinBlock2.coinCount > 0)
-			ctx.drawImage(this.model.coinBlock2.blockPic, this.model.coinBlock2.x - this.model.scrollPos, this.model.coinBlock2.y);
-		else
-			ctx.drawImage(this.model.coinBlock2.emptyBlockPic, this.model.coinBlock2.x - this.model.scrollPos, this.model.coinBlock2.y);
-
-		//draw the coins
-		for(let i = 0; i < this.model.coins.length; i++)
+		//draw the sprites
+		for(let i = 0; i < this.model.sprites.length; i++)
 		{
-			ctx.drawImage(this.model.coins[0].coinPic, this.model.coins[i].x - this.model.scrollPos, this.model.coins[i].y);
+			this.model.sprites[i].drawMe(ctx);
 		}
-
-		//animate mario
-	  if (this.model.mario.facingRight) //if he's facing right, animate right
-	  {
-	    this.mframe++; if (this.mframe > 4) this.mframe = 0;
-
-      //if keyRight and mario is on a surface, draw him running
-	    if(this.model.mario.runningRight && (this.model.mario.onTop == true || this.model.mario.y == this.model.ground))
-	      ctx.drawImage(this.model.mario.marioPics[this.mframe], this.model.startPos, this.model.mario.y);
-
-	    //else draw him standing still
-	    else ctx.drawImage(this.model.mario.marioPics[3], this.model.startPos, this.model.mario.y);
-	  }
-	  else //if he's facing left,  animate left
-	  {
-	    this.mframe++; if (this.mframe < 5 || this.mframe > 9) this.mframe = 5;
-
-	    //if keyLeft and mario is on a surface, draw him running
-	    if(this.model.mario.runningLeft && (this.model.mario.onTop == true || this.model.mario.y == this.model.ground))
-	      ctx.drawImage(this.model.mario.marioPics[this.mframe], this.model.startPos, this.model.mario.y);
-
-	    //else draw him standing still
-	    else ctx.drawImage(this.model.mario.marioPics[8], this.model.startPos, this.model.mario.y);
-	  }
 	}
 }
 
