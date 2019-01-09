@@ -158,18 +158,19 @@ class Mario
     }
 
 		//collision detection
-		if(this.x + this.w == this.model.brick1.x || this.x == this.model.brick1.x + this.model.brick1.w)
-			this.sideCollide = true;
-		if(this.x + this.w == this.model.brick2.x || this.x == this.model.brick2.x + this.model.brick2.w)
-			this.sideCollide = true;
-		if(this.collision(this.model.brick1.x, this.model.brick1.y, this.model.brick1.w, this.model.brick1.h))
-			this.leaveBlock(this.model.brick1.x, this.model.brick1.y, this.model.brick1.w, this.model.brick1.h);
-		if(this.collision(this.model.brick2.x, this.model.brick2.y, this.model.brick2.w, this.model.brick2.h))
-			this.leaveBlock(this.model.brick2.x, this.model.brick2.y, this.model.brick2.w, this.model.brick2.h);
-		if(this.collision(this.model.coinBlock1.x, this.model.coinBlock1.y, this.model.coinBlock1.w, this.model.coinBlock1.h))
-			this.leaveBlock(this.model.coinBlock1.x, this.model.coinBlock1.y, this.model.coinBlock1.w, this.model.coinBlock1.h);
-		if(this.collision(this.model.coinBlock2.x, this.model.coinBlock2.y, this.model.coinBlock2.w, this.model.coinBlock2.h))
-			this.leaveBlock(this.model.coinBlock2.x, this.model.coinBlock2.y, this.model.coinBlock2.w, this.model.coinBlock2.h);
+		for(let i = 0; i < this.model.sprites.length; i++)
+		{
+			let s = this.model.sprites[i];
+
+			if(s.type != "Mario" && s.type != "Coin")
+			{
+				if(this.x + this.w == s.x || this.x == s.x + s.w)
+					this.sideCollide = true;
+
+				if(this.collision(s.x, s.y, s.w, s.h))
+					this.leaveBlock(s.x, s.y, s.w, s.h);
+			}
+		}
 	}
 }
 
