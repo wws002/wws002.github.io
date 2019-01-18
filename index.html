@@ -309,6 +309,35 @@ class Coin
 
 
 ////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////Lava/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+class Lava
+{
+	constructor(x, y, w, h, model)
+	{
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.model = model;
+	}
+
+	drawMe(ctx)
+	{
+		ctx.beginPath();
+		ctx.rect(this.x - this.model.scrollPos, this.y, this.w, this.h);
+		ctx.fillStyle = "red";
+		ctx.fill();
+	}
+
+	update()
+	{
+	}
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////Model//////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class Model
@@ -325,6 +354,7 @@ class Model
 		this.brick2 = new Brick(this, 1000, 280);
 		this.coinBlock1 = new CoinBlock(this, 150, 250);
 		this.coinBlock2 = new CoinBlock(this, 1300, 200);
+		this.lava = new Lava(2000, 550, 300, 300, this);
 
 		this.sprites = [];
 		this.sprites.push(this.mario);
@@ -332,6 +362,7 @@ class Model
 		this.sprites.push(this.brick2);
 		this.sprites.push(this.coinBlock1);
 		this.sprites.push(this.coinBlock2);
+		this.sprites.push(this.lava);
 	}
 
 	update()
