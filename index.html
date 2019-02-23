@@ -177,6 +177,45 @@ class Mario
 
 
 ////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////Pickle Rick///////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+class Pickle_Rick
+{
+	constructor(model, x, y)
+	{
+		this.type = "Pickle Rick";
+		this.model = model;
+		this.x = x;
+		this.y = y;
+		this.w = 0;
+		this.h = 0;
+		this.vvel = 0;
+		this.hvel = 1;
+		this.rick_pic = new Image();
+		this.rick_pic.src = "pickRick.png";
+	}
+
+	drawMe(ctx)
+	{
+		ctx.drawImage(this.model.rick.rick_pic, this.model.rick.x - this.model.scrollPos, this.model.rick.y);
+	}
+
+	update()
+	{
+		if(this.y == 0)
+			this.vvel = 2;
+
+		if(this.y == 600)
+			this.vvel = -2;
+
+		this.y += this.vvel;
+		this.x -= this.hvel;
+	}
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////Brick//////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class Brick
@@ -321,6 +360,7 @@ class Model
 		this.ground = 455;
 
 		this.mario = new Mario(this, this.startPos, this.ground);
+		this.rick = new Pickle_Rick(this,2350, 0);
 		this.brick1 = new Brick(this, 350, 350);
 		this.brick2 = new Brick(this, 1000, 280);
 		this.coinBlock1 = new CoinBlock(this, 150, 250);
@@ -328,6 +368,7 @@ class Model
 
 		this.sprites = [];
 		this.sprites.push(this.mario);
+		this.sprites.push(this.rick);
 		this.sprites.push(this.brick1);
 		this.sprites.push(this.brick2);
 		this.sprites.push(this.coinBlock1);
