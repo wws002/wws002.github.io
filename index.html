@@ -187,8 +187,8 @@ class Pickle_Rick
 		this.model = model;
 		this.x = x;
 		this.y = y;
-		this.w = 0;
-		this.h = 0;
+		this.w = 150;
+		this.h = 150;
 		this.vvel = 0;
 		this.hvel = 1;
 		this.rick_pic = new Image();
@@ -208,8 +208,14 @@ class Pickle_Rick
 		if(this.y == 600)
 			this.vvel = -2;
 
+		if(this.x < 0)
+			this.hvel = 1;
+
+		if(this.x > 2500)
+			this.hvel = -1;
+
 		this.y += this.vvel;
-		this.x -= this.hvel;
+		this.x += this.hvel;
 	}
 }
 
