@@ -11,8 +11,8 @@ class CoinBlock
 		this.coinCount = 5;
 		this.blockPic = new Image();
 		this.emptyBlockPic = new Image();
-		this.blockPic.src = "coinBlock2.png";
-		this.emptyBlockPic.src = "emptyCoinBlock2.png";
+		this.blockPic.src = "images/coinBlock2.png";
+		this.emptyBlockPic.src = "images/emptyCoinBlock2.png";
 	}
 
 	getRandom()

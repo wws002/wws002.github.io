@@ -9,7 +9,7 @@ class Brick
 		this.w = 100;
 		this.h = 100;
 		this.brickPic = new Image();
-		this.brickPic.src = "brickPicSmall.png";
+		this.brickPic.src = "images/brickPicSmall.png";
 	}
 
 	drawMe(ctx)

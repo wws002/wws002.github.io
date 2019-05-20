@@ -28,16 +28,16 @@ class Mario
 		{
 			this.marioPics[i] = new Image();
 		}
-		this.marioPics[0].src = "mario1.png";
-		this.marioPics[1].src = "mario2.png";
-		this.marioPics[2].src = "mario3.png";
-		this.marioPics[3].src = "mario4.png";
-		this.marioPics[4].src = "mario5.png";
-		this.marioPics[5].src = "mario1left.png";
-		this.marioPics[6].src = "mario2left.png";
-		this.marioPics[7].src = "mario3left.png";
-		this.marioPics[8].src = "mario4left.png";
-		this.marioPics[9].src = "mario5left.png";
+		this.marioPics[0].src = "images/mario1.png";
+		this.marioPics[1].src = "images/mario2.png";
+		this.marioPics[2].src = "images/mario3.png";
+		this.marioPics[3].src = "images/mario4.png";
+		this.marioPics[4].src = "images/mario5.png";
+		this.marioPics[5].src = "images/mario1left.png";
+		this.marioPics[6].src = "images/mario2left.png";
+		this.marioPics[7].src = "images/mario3left.png";
+		this.marioPics[8].src = "images/mario4left.png";
+		this.marioPics[9].src = "images/mario5left.png";
 	}
 
 	notePrevious()

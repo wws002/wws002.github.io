@@ -4,7 +4,7 @@ class View
 	{
 		this.model = model;
 		this.backgroundPic = new Image();
-		this.backgroundPic.src = "scaledBackground.png";
+		this.backgroundPic.src = "images/scaledBackground.png";
 		this.canvas = document.getElementById("myCanvas");
 	}
 

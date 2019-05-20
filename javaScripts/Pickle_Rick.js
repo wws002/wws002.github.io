@@ -11,7 +11,7 @@ class Pickle_Rick
 		this.vvel = 0;
 		this.hvel = 1;
 		this.rick_pic = new Image();
-		this.rick_pic.src = "pickRick.png";
+		this.rick_pic.src = "images/pickRick.png";
 	}
 
 	drawMe(ctx)

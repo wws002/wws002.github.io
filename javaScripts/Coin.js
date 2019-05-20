@@ -12,7 +12,7 @@ class Coin
     this.vvel = vvel;
 
 		this.coinPic = new Image();
-		this.coinPic.src = "coin.png";
+		this.coinPic.src = "images/coin.png";
   }
 
 	drawMe(ctx)
